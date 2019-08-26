@@ -1,7 +1,7 @@
 package com.devconnection.ProfileService;
 
 import com.devconnection.ProfileService.domain.Profile;
-import com.devconnection.ProfileService.messages.CreateProfileMessage;
+import com.devconnection.ProfileService.messages.GenericMessage;
 import com.devconnection.ProfileService.repositories.ProfileRepository;
 import com.devconnection.ProfileService.services.ProfileServiceImpl;
 import org.junit.Test;
@@ -33,9 +33,9 @@ public class ProfileServiceTest {
     @Test
     public void createProfile() {
         String emailId = "Dannny@live.com";
-        CreateProfileMessage createProfileMessage = new CreateProfileMessage(emailId);
+        GenericMessage genericMessage = new GenericMessage(emailId);
 
-        profileService.createProfile(createProfileMessage);
+        profileService.createProfile(genericMessage);
 
         verify(profileRepository, times(1)).insert(Mockito.any((Profile.class)));
     }
@@ -46,7 +46,7 @@ public class ProfileServiceTest {
 
         when(profileRepository.findById(emailId)).thenReturn(Optional.of(new Profile(emailId)));
 
-        profileService.getProfile(emailId);
+        profileService.getProfile(new GenericMessage(emailId));
 
         verify(profileRepository, times(1)).findById(emailId);
     }
@@ -55,16 +55,6 @@ public class ProfileServiceTest {
     public void getProfile_NoSuchElement() {
         String emailId = "Dannny@live.com";
 
-        profileService.getProfile(emailId);
+        profileService.getProfile(new GenericMessage(emailId));
     }
-
-    @Test
-    public void removeProfile() {
-        String emailId = "Dannny@live.com";
-
-        profileService.removeProfile(emailId);
-
-        verify(profileRepository, times(1)).deleteById(emailId);
-    }
-
 }
