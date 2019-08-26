@@ -1,5 +1,6 @@
-package com.devconnection.ProfileService;
+package com.devconnection.ProfileService.controllers;
 
+import com.devconnection.ProfileService.ProfileServiceApplication;
 import com.devconnection.ProfileService.domain.Profile;
 import com.devconnection.ProfileService.messages.*;
 import com.devconnection.ProfileService.repositories.ProfileRepository;

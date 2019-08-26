@@ -1,4 +1,4 @@
-package com.devconnection.ProfileService;
+package com.devconnection.ProfileService.services;
 
 import com.devconnection.ProfileService.domain.Profile;
 import com.devconnection.ProfileService.messages.GenericMessage;
