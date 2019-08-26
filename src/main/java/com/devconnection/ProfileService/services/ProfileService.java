@@ -5,9 +5,9 @@ import com.devconnection.ProfileService.messages.*;
 
 public interface ProfileService {
 
-    void createProfile(CreateProfileMessage createProfileMessage);
+    void createProfile(GenericMessage genericMessage);
 
-    Profile getProfile(String id);
+    Profile getProfile(GenericMessage genericMessage);
 
     boolean updateProfileDescription(UpdateProfileDescriptionMessage updateProfileDescriptionMessage);
 
@@ -17,5 +17,5 @@ public interface ProfileService {
 
     boolean updateProfileSkills(UpdateProfileSkillsMessage updateProfileSkillsMessage);
 
-    void removeProfile(String id);
+    boolean profileExists(GenericMessage genericMessage);
 }
