@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateProfileMessage {
+public class GenericMessage {
 
     private String id;
-
 }
