@@ -1,14 +1,16 @@
 package com.devconnection.ProfileService.messages;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.ArrayList;
-import java.util.List;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UpdateProfileSkillsMessage {
 
     private String id;
-    private List<String> skills = new ArrayList<>();
+    private boolean remove;
+    private String skill;
 
 }
