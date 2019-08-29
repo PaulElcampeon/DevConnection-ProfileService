@@ -19,37 +19,37 @@ public class ProfileServiceController {
         this.profileService = profileService;
     }
 
-    @RequestMapping(value = "/profile-service/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public void createProfile(@RequestBody GenericMessage genericMessage) {
         profileService.createProfile(genericMessage);
     }
 
-    @RequestMapping(value = "/profile-service/get", method = RequestMethod.POST)
+    @RequestMapping(value = "/get", method = RequestMethod.POST)
     public Profile getProfile(@RequestBody GenericMessage genericMessage) {
         return profileService.getProfile(genericMessage);
     }
 
-    @RequestMapping(value = "/profile-service/exists", method = RequestMethod.POST)
+    @RequestMapping(value = "/exists", method = RequestMethod.POST)
     public GenericResponse checkProfileExists(@RequestBody GenericMessage genericMessage) {
         return new GenericResponse(profileService.profileExists(genericMessage));
     }
 
-    @RequestMapping(value = "/profile-service/update/projects", method = RequestMethod.POST)
+    @RequestMapping(value = "/update/projects", method = RequestMethod.POST)
     public GenericResponse updateProjects(@RequestBody UpdateProfileCurrentProjectsMessage updateProfileCurrentProjectsMessage) {
         return new GenericResponse(profileService.updateProfileCurrentProjects(updateProfileCurrentProjectsMessage));
     }
 
-    @RequestMapping(value = "/profile-service/update/description", method = RequestMethod.POST)
+    @RequestMapping(value = "/update/description", method = RequestMethod.POST)
     public GenericResponse updateDescription(@RequestBody UpdateProfileDescriptionMessage updateProfileDescriptionMessage) {
         return new GenericResponse(profileService.updateProfileDescription(updateProfileDescriptionMessage));
     }
 
-    @RequestMapping(value = "/profile-service/update/experience", method = RequestMethod.POST)
+    @RequestMapping(value = "/update/experience", method = RequestMethod.POST)
     public GenericResponse updateExperience(@RequestBody UpdateProfileExperienceMessage updateProfileExperienceMessage) {
         return new GenericResponse(profileService.updateProfileExperience(updateProfileExperienceMessage));
     }
 
-    @RequestMapping(value = "/profile-service/update/skills", method = RequestMethod.POST)
+    @RequestMapping(value = "/update/skills", method = RequestMethod.POST)
     public GenericResponse updateSkills(@RequestBody UpdateProfileSkillsMessage updateProfileSkillsMessage) {
         return new GenericResponse(profileService.updateProfileSkills(updateProfileSkillsMessage));
     }
