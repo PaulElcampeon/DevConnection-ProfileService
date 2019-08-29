@@ -28,12 +28,12 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public void createProfile(GenericMessage genericMessage) {
-        profileRepository.insert(new Profile(genericMessage.getId()));
+        profileRepository.insert(new Profile(genericMessage.getEmail()));
     }
 
     @Override
     public Profile getProfile(GenericMessage genericMessage) {
-        return profileRepository.findById(genericMessage.getId()).orElseThrow(NoSuchElementException::new);
+        return profileRepository.findById(genericMessage.getEmail()).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
@@ -98,6 +98,6 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public boolean profileExists(GenericMessage genericMessage) {
-        return profileRepository.existsById(genericMessage.getId());
+        return profileRepository.existsById(genericMessage.getEmail());
     }
 }
