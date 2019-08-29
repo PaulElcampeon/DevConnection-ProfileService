@@ -14,12 +14,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
+@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 @SpringBootTest(classes = {ProfileServiceApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ProfileServiceControllerTest {
 
@@ -52,7 +55,7 @@ public class ProfileServiceControllerTest {
     public void createProfile() {
         String email = "Dave@live.co.uk";
 
-        restTemplate.postForEntity(baseUrl + "profile-service/create", new GenericMessage(email), String.class);
+        restTemplate.postForEntity(baseUrl + "create", new GenericMessage(email), String.class);
 
         assertTrue(profileService.profileExists(new GenericMessage(email)));
     }
@@ -63,7 +66,7 @@ public class ProfileServiceControllerTest {
 
         profileRepository.insert(new Profile(email));
 
-        HttpEntity<Profile> result = restTemplate.postForEntity(baseUrl + "profile-service/get", new GenericMessage(email), Profile.class);
+        HttpEntity<Profile> result = restTemplate.postForEntity(baseUrl + "get", new GenericMessage(email), Profile.class);
 
         assertEquals(new Profile(email), result.getBody());
     }
@@ -74,7 +77,7 @@ public class ProfileServiceControllerTest {
 
         profileRepository.insert(new Profile(email));
 
-        HttpEntity<GenericResponse> result = restTemplate.postForEntity(baseUrl + "profile-service/exists", new GenericMessage(email), GenericResponse.class);
+        HttpEntity<GenericResponse> result = restTemplate.postForEntity(baseUrl + "exists", new GenericMessage(email), GenericResponse.class);
 
         assertTrue(result.getBody().isSuccess());
     }
@@ -88,7 +91,7 @@ public class ProfileServiceControllerTest {
 
         profileRepository.insert(profile);
 
-        HttpEntity<GenericResponse> result = restTemplate.postForEntity(baseUrl + "profile-service/update/projects", new UpdateProfileCurrentProjectsMessage(email, projectName, true), GenericResponse.class);
+        HttpEntity<GenericResponse> result = restTemplate.postForEntity(baseUrl + "update/projects", new UpdateProfileCurrentProjectsMessage(email, projectName, true), GenericResponse.class);
 
         assertTrue(result.getBody().isSuccess());
         assertEquals(0, profileRepository.findById(email).get().getCurrentProjects().size());
@@ -102,7 +105,7 @@ public class ProfileServiceControllerTest {
 
         profileRepository.insert(profile);
 
-        HttpEntity<GenericResponse> result = restTemplate.postForEntity(baseUrl + "profile-service/update/description", new UpdateProfileDescriptionMessage(email, "Bye"), GenericResponse.class);
+        HttpEntity<GenericResponse> result = restTemplate.postForEntity(baseUrl + "update/description", new UpdateProfileDescriptionMessage(email, "Bye"), GenericResponse.class);
 
         assertTrue(result.getBody().isSuccess());
         assertEquals("Bye", profileRepository.findById(email).get().getDescription());
@@ -118,7 +121,7 @@ public class ProfileServiceControllerTest {
 
         int newYearsExperience = 4;
 
-        HttpEntity<GenericResponse> result = restTemplate.postForEntity(baseUrl + "profile-service/update/experience", new UpdateProfileExperienceMessage(email, newYearsExperience), GenericResponse.class);
+        HttpEntity<GenericResponse> result = restTemplate.postForEntity(baseUrl + "update/experience", new UpdateProfileExperienceMessage(email, newYearsExperience), GenericResponse.class);
 
         assertTrue(result.getBody().isSuccess());
         assertEquals(newYearsExperience, profileRepository.findById(email).get().getYearsExperience());
@@ -134,7 +137,7 @@ public class ProfileServiceControllerTest {
 
         String skill = "React";
 
-        HttpEntity<GenericResponse> result = restTemplate.postForEntity(baseUrl + "profile-service/update/skills", new UpdateProfileSkillsMessage(email, false, skill), GenericResponse.class);
+        HttpEntity<GenericResponse> result = restTemplate.postForEntity(baseUrl + "update/skills", new UpdateProfileSkillsMessage(email, false, skill), GenericResponse.class);
 
         assertTrue(result.getBody().isSuccess());
         assertTrue(profileRepository.findById(email).get().getSkills().contains(skill));

@@ -4,12 +4,14 @@ import com.devconnection.ProfileService.ProfileServiceApplication;
 import com.devconnection.ProfileService.domain.Profile;
 import com.devconnection.ProfileService.messages.*;
 import com.devconnection.ProfileService.repositories.ProfileRepository;
-import com.devconnection.ProfileService.services.ProfileService;
+
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
@@ -17,6 +19,7 @@ import java.util.Arrays;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
+@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 @SpringBootTest(classes = {ProfileServiceApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class ProfileServiceIT {
 
@@ -35,7 +38,7 @@ public class ProfileServiceIT {
     public void createProfile() {
         String email = "Dave@live.co.uk";
         GenericMessage genericMessage = new GenericMessage();
-        genericMessage.setId(email);
+        genericMessage.setEmail(email);
 
         profileService.createProfile(genericMessage);
 
@@ -47,7 +50,7 @@ public class ProfileServiceIT {
         String email = "Dave@live.co.uk";
         Profile profile = new Profile(email);
         GenericMessage genericMessage = new GenericMessage();
-        genericMessage.setId(email);
+        genericMessage.setEmail(email);
 
         profileRepository.insert(profile);
 
@@ -198,7 +201,7 @@ public class ProfileServiceIT {
     public void profileExists_true() {
         String email = "Dave@live.co.uk";
         GenericMessage genericMessage = new GenericMessage();
-        genericMessage.setId(email);
+        genericMessage.setEmail(email);
 
         Profile profile = new Profile();
         profile.setId(email);
@@ -214,7 +217,7 @@ public class ProfileServiceIT {
     public void profileExists_false() {
         String email = "Dave@live.co.uk";
         GenericMessage genericMessage = new GenericMessage();
-        genericMessage.setId(email);
+        genericMessage.setEmail(email);
 
         boolean result = profileService.profileExists(genericMessage);
 
