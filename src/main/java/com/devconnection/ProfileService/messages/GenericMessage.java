@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GenericMessage {
 
-    private String id;
+    private String email;
 }
