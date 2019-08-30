@@ -1,9 +1,7 @@
 package com.devconnection.ProfileService.services;
 
-import com.devconnection.ProfileService.domain.Profile;
-import com.devconnection.ProfileService.messages.*;
-import com.devconnection.ProfileService.repositories.ProfileRepository;
-import com.mongodb.client.result.UpdateResult;
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -11,7 +9,15 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
+import com.devconnection.ProfileService.domain.Profile;
+import com.devconnection.ProfileService.messages.CreateProfile;
+import com.devconnection.ProfileService.messages.GenericMessage;
+import com.devconnection.ProfileService.messages.UpdateProfileCurrentProjectsMessage;
+import com.devconnection.ProfileService.messages.UpdateProfileDescriptionMessage;
+import com.devconnection.ProfileService.messages.UpdateProfileExperienceMessage;
+import com.devconnection.ProfileService.messages.UpdateProfileSkillsMessage;
+import com.devconnection.ProfileService.repositories.ProfileRepository;
+import com.mongodb.client.result.UpdateResult;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
@@ -27,8 +33,8 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public void createProfile(GenericMessage genericMessage) {
-        profileRepository.insert(new Profile(genericMessage.getEmail()));
+    public void createProfile(CreateProfile createProfile) {
+        profileRepository.insert(new Profile(createProfile.getEmail(), createProfile.getUsername()));
     }
 
     @Override
@@ -39,7 +45,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public boolean updateProfileDescription(UpdateProfileDescriptionMessage updateProfileDescriptionMessage) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("_id").is(updateProfileDescriptionMessage.getId()));
+        query.addCriteria(Criteria.where("_id").is(updateProfileDescriptionMessage.getEmail()));
 
         Update update = new Update();
         update.set("description", updateProfileDescriptionMessage.getDescription());
@@ -52,7 +58,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public boolean updateProfileCurrentProjects(UpdateProfileCurrentProjectsMessage updateProfileCurrentProjects) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("_id").is(updateProfileCurrentProjects.getId()));
+        query.addCriteria(Criteria.where("_id").is(updateProfileCurrentProjects.getEmail()));
 
         Update update = new Update();
         if (updateProfileCurrentProjects.isLeave()) {
@@ -69,7 +75,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public boolean updateProfileExperience(UpdateProfileExperienceMessage updateProfileExperienceMessage) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("_id").is(updateProfileExperienceMessage.getId()));
+        query.addCriteria(Criteria.where("_id").is(updateProfileExperienceMessage.getEmail()));
 
         Update update = new Update();
         update.set("yearsExperience", updateProfileExperienceMessage.getYearsExperience());
@@ -82,7 +88,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public boolean updateProfileSkills(UpdateProfileSkillsMessage updateProfileSkillsMessage) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("_id").is(updateProfileSkillsMessage.getId()));
+        query.addCriteria(Criteria.where("_id").is(updateProfileSkillsMessage.getEmail()));
 
         Update update = new Update();
         if (updateProfileSkillsMessage.isRemove()) {

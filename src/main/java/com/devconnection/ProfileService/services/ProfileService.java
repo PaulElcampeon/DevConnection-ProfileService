@@ -5,7 +5,7 @@ import com.devconnection.ProfileService.messages.*;
 
 public interface ProfileService {
 
-    void createProfile(GenericMessage genericMessage);
+    void createProfile(CreateProfile createProfile);
 
     Profile getProfile(GenericMessage genericMessage);
 
