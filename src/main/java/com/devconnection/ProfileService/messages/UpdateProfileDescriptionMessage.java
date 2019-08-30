@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateProfileDescriptionMessage {
 
-    private String id;
+    private String email;
     private String description;
 
 }

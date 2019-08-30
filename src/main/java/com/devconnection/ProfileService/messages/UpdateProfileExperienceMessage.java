@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateProfileExperienceMessage {
 
-    private String id;
+    private String email;
     private int yearsExperience;
 }

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateProfileCurrentProjectsMessage {
 
-    private String id;
+    private String email;
     private String projectName;
     private boolean leave;
 }
