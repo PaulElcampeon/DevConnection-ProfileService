@@ -20,8 +20,8 @@ public class ProfileServiceController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public void createProfile(@RequestBody GenericMessage genericMessage) {
-        profileService.createProfile(genericMessage);
+    public void createProfile(@RequestBody CreateProfile createProfile) {
+        profileService.createProfile(createProfile);
     }
 
     @RequestMapping(value = "/get", method = RequestMethod.POST)
