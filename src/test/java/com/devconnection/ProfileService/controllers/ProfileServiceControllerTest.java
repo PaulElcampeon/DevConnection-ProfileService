@@ -1,10 +1,8 @@
 package com.devconnection.ProfileService.controllers;
 
-import com.devconnection.ProfileService.ProfileServiceApplication;
-import com.devconnection.ProfileService.domain.Profile;
-import com.devconnection.ProfileService.messages.*;
-import com.devconnection.ProfileService.repositories.ProfileRepository;
-import com.devconnection.ProfileService.services.ProfileService;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,8 +16,16 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import com.devconnection.ProfileService.ProfileServiceApplication;
+import com.devconnection.ProfileService.domain.Profile;
+import com.devconnection.ProfileService.messages.GenericMessage;
+import com.devconnection.ProfileService.messages.GenericResponse;
+import com.devconnection.ProfileService.messages.UpdateProfileCurrentProjectsMessage;
+import com.devconnection.ProfileService.messages.UpdateProfileDescriptionMessage;
+import com.devconnection.ProfileService.messages.UpdateProfileExperienceMessage;
+import com.devconnection.ProfileService.messages.UpdateProfileSkillsMessage;
+import com.devconnection.ProfileService.repositories.ProfileRepository;
+import com.devconnection.ProfileService.services.ProfileService;
 
 @RunWith(SpringRunner.class)
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
@@ -50,6 +56,9 @@ public class ProfileServiceControllerTest {
         profileRepository.deleteAll();
     }
 
+    private String email = "Dave@live.co.uk";
+
+    private String username = "Dave123";
 
     @Test
     public void createProfile() {
@@ -62,20 +71,16 @@ public class ProfileServiceControllerTest {
 
     @Test
     public void getProfile() {
-        String email = "Dave@live.co.uk";
-
-        profileRepository.insert(new Profile(email));
+        profileRepository.insert(new Profile(email, username));
 
         HttpEntity<Profile> result = restTemplate.postForEntity(baseUrl + "get", new GenericMessage(email), Profile.class);
 
-        assertEquals(new Profile(email), result.getBody());
+        assertEquals(new Profile(email, username), result.getBody());
     }
 
     @Test
     public void checkProfileExists() {
-        String email = "Dave@live.co.uk";
-
-        profileRepository.insert(new Profile(email));
+        profileRepository.insert(new Profile(email, username));
 
         HttpEntity<GenericResponse> result = restTemplate.postForEntity(baseUrl + "exists", new GenericMessage(email), GenericResponse.class);
 
@@ -84,9 +89,8 @@ public class ProfileServiceControllerTest {
 
     @Test
     public void updateProjects() {
-        String email = "Dave@live.co.uk";
         String projectName = "Jeanuto";
-        Profile profile = new Profile(email);
+        Profile profile = new Profile(email, username);
         profile.getCurrentProjects().add(projectName);
 
         profileRepository.insert(profile);
@@ -99,8 +103,7 @@ public class ProfileServiceControllerTest {
 
     @Test
     public void updateDescription() {
-        String email = "Dave@live.co.uk";
-        Profile profile = new Profile(email);
+        Profile profile = new Profile(email, username);
         profile.setDescription("hello");
 
         profileRepository.insert(profile);
@@ -113,8 +116,7 @@ public class ProfileServiceControllerTest {
 
     @Test
     public void updateExperience() {
-        String email = "Dave@live.co.uk";
-        Profile profile = new Profile(email);
+        Profile profile = new Profile(email, username);
         profile.setYearsExperience(2);
 
         profileRepository.insert(profile);
@@ -129,8 +131,7 @@ public class ProfileServiceControllerTest {
 
     @Test
     public void updateSkills() {
-        String email = "Dave@live.co.uk";
-        Profile profile = new Profile(email);
+        Profile profile = new Profile(email, username);
         profile.getSkills().add("Java");
 
         profileRepository.insert(profile);
